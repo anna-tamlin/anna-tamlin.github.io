@@ -3,60 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name — Portfolio</title>
+    <title>Home</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <!-- Minimalist Three-Part Navbar -->
     <nav class="navbar">
         <div class="nav-left">
-            <a href="index.html" class="active">index</a>
+            <a href="index.html" class="active">home</a>
             <a href="work.html">work</a>
             <a href="about.html">about</a>
+            <a href="travel.html">travel</a>
         </div>
         <div class="nav-center">
-            <a href="index.html" class="brand">A.T</a>
+            <a href="index.html" class="brand">AT</a>
         </div>
         <div class="nav-right">
-            <a href="https://github.com" target="_blank" rel="noopener">github</a>
-            <a href="assets/resume.pdf" target="_blank" rel="noopener">resume</a>
+            <a href="mailto:atamlin@uwaterloo.ca" aria-label="Email Anna-Margret">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/annatamlin" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.flickr.com/photos/annatamlin/albums/72177720331344123/" target="_blank" rel="noopener" aria-label="Flickr Profile">
+                <i class="fa-brands fa-flickr"></i>
+            </a>
+            <a href="https://www.instagram.com/annasartportfolio/" target="_blank" rel="noopener" aria-label="Art Instagram Profile">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <main class="content-wrapper">
-        <section class="intro">
-            <h1>Hi, I'm a designer and developer exploring the space where humans and complex systems connect.</h1>
-            
-            <p>
-                Currently, I am focusing on making digital interfaces feel more natural and intuitive. 
-                When I'm not writing code, you can usually find me 
-                <span class="footnote-container">
-                    out on the trails<sup>1</sup>
-                    <span class="tooltip">Chasing elevation gains and remote viewpoints.</span>
-                </span> 
-                or experimenting with 
-                <span class="footnote-container">
-                    vintage digital cameras<sup>2</sup>
-                    <span class="tooltip">Obsessed with the unique look of early 2010s CCD sensors.</span>
-                </span>.
-            </p>
-        </section>
+<main class="content-wrapper">
+    <section class="intro">
+        <h1 class="hero-title">
+                <span id="typing-greeting">Hi</span><span class="typing-cursor">|</span>, I'm 
+                <span class="footnote-container name-link-container">
+                    <em>Anna-Margret </em>!<sup>1</sup>
+                <span class="tooltip">but most people call me Anna :&#41;</span>
+            </span>
+        </h1>
+        
+        <p class="intro-body">
+           I’m a third-year biomedical engineering student drawn to human factors and user-<br> centered design. I want to build technology for complex, safety-critical environments<br>  to ensure systems are intuitive, reliable, and optimized for human capabilities.
+        </p>
+        <p style="margin-bottom: 1.3rem;">
+            Beyond work and school, you can find me: </p>
+            <p style="margin-bottom: 1rem;">
+            <span style="font-weight: bold;">Moving:</span>  
+            <span class="footnote-container">
+                        <a href="hiking.html" class="footnote-link">Hiking in the mountains<sup>2</sup></a>
+                        <span class="tooltip">click for my hiking log! &#9968;</span>
+                    </span>, lifting at the gym, practicing my juggling, or <a href="https://en.wikipedia.org/wiki/Baton_twirling" class="photos-direct-link"> twirling a baton</a>.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <strong>Creating:</strong> Painting, sketching, crocheting, and devising new recipes.
+                </p>
+                <p class="intro-body">
+                    <strong>Collecting:</strong> <span class="footnote-container">Trying new cheeses<sup>3</sup>
+                        <span class="tooltip">As UW Cheese Club's Vice President, I was responsible for acquiring cheese for 50+ members each week! &#x1F9C0;</span></span>, thrifting, or capturing 
+                    <a href="photos.html" class="photos-direct-link">moments</a> on 
+                    <span class="footnote-container">
+                        my digital cameras.<sup>4</sup>
+                        <span class="tooltip">current rotation: Sony CyberShot DSC-W320, Canon PowerShot SX230 HS, and Fujifilm FinePix XP70 &#128247;</span>
+                    </span>
+                </p>
+        <p class="intro-body">
+            This space is a digital scrapbook of my technical experience and creative pursuits. <br> Please feel free to explore! </p>
+        <p class="coop-badge">
+            Available for an 8-month co-op · Winter, Spring 2027
+        </p>
 
-        <!-- Project Grid Placeholder -->
-        <section class="project-preview">
-            <span class="section-label">selected work / 2025 – 2026</span>
-            <div class="project-row">
-                <a href="work.html" class="project-title">Systems Optimization Prototype</a>
-                <span class="project-meta">human factors / interface design</span>
-            </div>
-            <div class="project-row">
-                <a href="work.html" class="project-title">Biomedical Signal Interface</a>
-                <span class="project-meta">hardware / embedded systems</span>
-            </div>
-        </section>
+    </section>
+
     </main>
+
+<!-- Multi-language "hello" typing animation -->
+    <script>
+        const greetings = [
+            "Hi", "Bonjour", "Ciao", "Hola", "Grüezi", "こんにちは", "你好", "Halo", "สวัสดี",  "Xin chào", "សួស្តី", "G'day", "안녕하세요"
+             
+        ];
+        
+        let greetingIndex = 0;
+        let charIndex = greetings[greetingIndex].length; 
+        let isDeleting = true; 
+        const typingSpeed = 100;
+        const deletingSpeed = 60;
+        const pauseBetweenWords = 2000; 
+
+        function typeEffect() {
+            const currentWord = greetings[greetingIndex];
+            const textContainer = document.getElementById("typing-greeting");
+
+            if (isDeleting) {
+                textContainer.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textContainer.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, pauseBetweenWords);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                greetingIndex = (greetingIndex + 1) % greetings.length;
+                setTimeout(typeEffect, 200);
+            } else {
+                setTimeout(typeEffect, isDeleting ? deletingSpeed : typingSpeed);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(typeEffect, 1500);
+        });
+    </script>
 
 </body>
 </html>

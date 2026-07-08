@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos</title>
+    <link rel="icon" href="assets/camera_portrait_2.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
+</head>
+<body class="grid-bg">
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html">home</a>
+            <a href="work.html">work</a>
+            <a href="about.html">about</a>
+            <a href="travel.html">travel</a>
+        </div>
+        <div class="nav-center">
+            <a href="index.html" class="brand">AT</a>
+        </div>
+        <div class="nav-right">
+            <a href="mailto:atamlin@uwaterloo.ca" aria-label="Email Anna-Margret">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/annatamlin" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.flickr.com/photos/annatamlin/albums/72177720331344123/" target="_blank" rel="noopener" aria-label="Flickr Profile">
+                <i class="fa-brands fa-flickr"></i>
+            </a>
+            <a href="https://www.instagram.com/annasartportfolio/" target="_blank" rel="noopener" aria-label="Art Instagram Profile">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="scrapbook-container">
+        <div class="camera-console">
+            <img src="assets/cybershotframe.png" class="camera-body-hardware" alt="Sony Cybershot Frame">
+            <div class="camera-screen-window">
+                <div class="viewfinder-ui top-ui">
+                    <span><i class="fa-solid fa-battery-half"></i> 60%</span>
+                </div>
+                <!-- Active image -->
+                <img src="assets/plainsofabraham.jpg" id="active-screen-photo" alt="Plains of Abraham image">
+            </div>
+            <!-- Ineractive buttons -->
+            <button class="cam-btn btn-prev" onclick="changePhoto(-1)" title="Previous Image"></button>
+            <button class="cam-btn btn-next" onclick="changePhoto(1)" title="Next Image"></button>
+        </div>
+        <div class="exif-data-tag" id="photo-metadata">
+            SONY CYBERSHOT DSC-W310 | FLYING OVER MOUNT FUJI, JAPAN | ISO 200 | f/5.6 | January 2026
+        </div>
+    </main>
+
+    <script src="gallery.js"></script>
+</body>
+</html>
+
+

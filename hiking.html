@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiking</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
+    <style>
+        
+        .hiking-hero {
+            margin-bottom: 3rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding-bottom: 1rem;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            color: #777;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            color: #111;
+        }
+
+        .filter-btn.active-filter {
+            color: #111;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .filter-btn.active-filter::after {
+            content: '';
+            position: absolute;
+            bottom: -13px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #111;
+        }
+
+        .trail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .trail-card {
+            background: #fafafa;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+
+        .trail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .trail-title {
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .status-completed { background: #e2f0d9; color: #385723; }
+        .status-bucket { background: #ffe6cc; color: #7f6000; }
+
+        .trail-meta {
+            font-size: 0.88rem;
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .trail-meta i { margin-right: 0.25rem; }
+
+        .elevation-profile {
+            height: 60px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.02);
+            padding: 0.5rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .elevation-bar {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.15);
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            transition: background 0.2s ease, height 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .elevation-bar:hover {
+            background: #111;
+        }
+
+        .elevation-bar::after {
+            content: attr(data-elevation);
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: #111;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.15s ease;
+        }
+
+        .elevation-bar:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .scrapbook-snap {
+            background: #fff;
+            padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.03);
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .scrapbook-snap img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            filter: grayscale(0.1) contrast(0.95);
+        }
+
+        .hidden-trail {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html">home</a>
+            <a href="work.html">work</a>
+            <a href="about.html">about</a>
+            <a href="travel.html">travel</a>
+        </div>
+        <div class="nav-center">
+            <a href="index.html" class="brand">AT</a>
+        </div>
+        <div class="nav-right">
+            <a href="mailto:atamlin@uwaterloo.ca" aria-label="Email Anna-Margret">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/annatamlin" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.flickr.com/photos/annatamlin/albums/72177720331344123/" target="_blank" rel="noopener" aria-label="Flickr Profile">
+                <i class="fa-brands fa-flickr"></i>
+            </a>
+            <a href="https://www.instagram.com/annasartportfolio/" target="_blank" rel="noopener" aria-label="Art Instagram Profile">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+    </nav>
+
+<main class="content-wrapper">
+        <section class="section-header">
+            <h2 class="section-title-serif">Trail Log</h2>
+            <p class="intro-body">
+               Hikes I've completed, and the trails I'm hoping to do in the future!
+            </p>
+        </section>
+
+        <div class="filter-controls">
+            <button class="filter-btn active-filter" onclick="filterTrails('all', this)">All Treks</button>
+            <button class="filter-btn" onclick="filterTrails('completed', this)">Completed</button>
+            <button class="filter-btn" onclick="filterTrails('bucket', this)">Bucket List</button>
+        </div>
+
+        <div class="trail-grid" id="trailGrid">
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Alishan Forest Park Loop</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Alishan National Forest Recreation Area, Taiwan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      4.8 km | 213 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/alishan.jpg" alt="View from the Alishan Forest Recreation Area">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Bukhansan Mountain Loop</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Seoul, South Korea</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                       10.5 km | 848 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/baegundae.jpg" alt="View from the Baegundae summit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Dewey Dam Loop</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Skagway, Alaska</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      3.1 km | 175 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/deweydam.jpg" alt="View from the Dewey Dam trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Eiger Trail (Eigergletscher Station to Alpiglen Station)</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Grindelwald, Switzerland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      6.1 km | 78 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/eiger.jpg" alt="iew from the Eiger trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Eryanping Trail</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Fanlu, Chiayi, Taiwan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      2.1 km | 215 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/eryanping.jpg" alt="View from the Eryanping trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Hang Mua Peak</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Ninh Binh, Vietnam</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      1.3 km | 60 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/hangmua.jpg" alt="View from the Hang Mua Peak trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Hurricane Hill via Hurricane Ridge</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Olympic National Park, Washington, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      5.6 km | 245 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/hurricanehill.jpg" alt="View from Hurricane Ridge">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Kew Mae Pan Nature Trail</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Doi Inthanon National Park, Chiang Mai, Thailand</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      3.2 km | 196 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/kewmaepan.jpg" alt="View from the Kew Mae Pan Nature trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">King Canyon & Gould Mine Loop</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Saguaro National Park, Arizona, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                       4.0 km | 125 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/saguaro.jpg" alt="View from the Saguaro National Park">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Koko Crater Tramway to Kokohead Lookout</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Oahu, Hawaii, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                       2.6 km | 271 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/kokocrater.jpg" alt="View from Kokohead Lookout">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Lion Rock Loop</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> Sha Tin District, Hong Kong</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                       7.2 km | 543 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/lionrock.jpg" alt="iew from the Lion Rock hike summit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Maison Cailler - Château de Gruyères - Maison du Gruyère Cheese Factory </h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Gruyères, Switzerland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      5.5 km | 168 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/gruyeres.jpg" alt="View from Gruyères">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Manly to Spit Bridge</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Sydney, New South Wales, Australia</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      10.3 km | 236 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/manlyspit.jpg" alt="View from the Manly to Spit Bridge coastal walk">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Montmorency Falls</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Parc National de la Chute-Montmorency, Quebec, Canada</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      4.7 km | 155 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/montmorency.jpg" alt="View from the Montmorency Falls trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Mürren - Grütschalp</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Lauterbrunnen, Switzerland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      4.5 km | 57 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/murren.jpg" alt="View from Mürren">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Pha Dok Sieo Nature Trail</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Doi Inthanon National Park, Chiang Mai, Thailand</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      5.5 km | 316 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/phadoksiew.jpg" alt="View from the Pha Dok Siew trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Qingtiangang Trail to Fenguizui Lookout</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Yangmingshan National Park, Taipei, Taiwan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      7.1 km | 208 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/qingtiangang.jpg" alt="View from the Qingtiangang Grassland trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Tiger Cave Temple Peak</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Nuea Khlong, Krabi, Thailand</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      0.8 km | 92 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/tigercavetemple.jpg" alt="View from Tiger Cave Temple">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Tiger Leaping Gorge (Tea Horse Guesthouse to Tina's Guesthouse)</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Yunnan, China</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                       9.1 km | 988 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/tigerleapinggorge.jpg" alt="View from the Tiger Leaping Gorge trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Trümmelbach Falls via Lauterbrunnen</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Lauterbrunnen, Switzerland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      8.7 km | 369 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/trummelbach.jpg" alt="View of Lauterbrunnen from the Trümmelbach Falls">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Wat Pha Lat Hike (Monk's Trail)</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Suthep, Chiang Mai, Thailand</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      7.6 km | 617 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/doisuthep.jpg" alt="View from the top of Doi Suthep">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Whistler Peak (Half Note Trail)</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Whistler, BC, Canada</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      3.2 km | 142 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/halfnote.jpg" alt="View from the Half Note trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="completed">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Xiangshan Mountain</h3>
+                        <span class="status-badge status-completed">Completed</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Taipei, Taiwan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      1.1 km | 136 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/xiangshan.jpg" alt="View from the Xiangshan trail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Adam’s Peak</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Ratnapura District, Sri Lanka</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     9.5 km | 966 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div> 
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Alta Via 1 Dolomites</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>The Dolomites, Italy</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     123.1 km | 7,781 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Angels Landing</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Zion National Park, Utah, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     7.7 km | 532 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Annapurna Base Camp</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Ghandruk, Nepal</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     55.8 km | 6,616 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Big Almaty Lake Loop</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Almaty, Kazakhstan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     10.6 km | 713 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Bumdrak to Taktsang</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Paro, Bhutan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     8.0 km | 1,401 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Camino de Santiago</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Northern Spain</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     853.9 km | 18,178 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                    <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Camino del Norte</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Gipuzkoa, Spain</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                    18.8 km | 748 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Dana to Petra</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Petra, Jordan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     79.0 km | 3,027 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Dartmoor Tors Circular</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Dartmoor National Park, UK</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     21.6 km | 644 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Encumeada - Pinacle aand Folhadal Path - Bica da Cana</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Madeira, Portugal</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                    24.1 km | 2,369 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Garfield Peak Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Crater Lake National Park, Oregon, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      5.6 km | 327 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Glymur Waterfall Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Western Region, Iceland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      7.2 km | 429 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+           
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Half Dome via the John Muir Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Yosemite National Park, California, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     27.7 km | 1,617 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Hallasan Summit</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Jeju Island, South Korea</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      18.3 km | 1,179 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Inca Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Cusco, Peru</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      36.5 km | 2,847 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Lake Ala-Köl</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Ak-Suu, Ysyk-Köl, Kyrgyzstan</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     40.1 km | 2,149 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+                
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Lofoten Ultra-Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Lofotodden National Park, Norway</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                    166.6 km | 6,007 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Long Range Traverse Full Route </h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Gros Morne National Park, Newfoundland, Canada</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     37.3 km | 1,714 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Milford Track</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Fiordland National Park, New Zealand</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                      55.0 km | 1,773 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Mist Trail, Cloud Rest, May Lake, and Snow Creek Loop</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Yosemite National Park, California, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     56.3 km | 2,638 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Mount Kilimanjaro: Machame Route</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                     <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Kilimanjaro, Tanzania</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     61.0 km | 5,190 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Noosa Coastal Walk (Dolphin Point, Hell's Gates, and Devils Kitchen)</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Noosa National Park, Queensland, Australia</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     12.1 km | 291 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Plitvice Lakes Green Route K</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Plitvice Lakes National Park, Croatia</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     16.6 km | 527 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Rim-to-Rim Trail (South Kaibab to North Kaibab)</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Grand Canyon National Park, Arizona, USA</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     34.4 km | 1,878 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Roques de García </h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Teide National Park, Tenerife, Canary Islands</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     3.5 km | 184 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Sgùrr na Strì</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Isle of Skye, Scotland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                    24.3 km | 902 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Skógafoss - Steinbogafoss via Fimmvörðuháls Trail</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Skógar, Southern Region, Iceland</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     26.2 km | 1,131 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Stawamus Chief Peak Loop</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Squamish, BC, Canada</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     6.8 km | 772 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Torres del Paine “W” Trek</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Torres del Paine National Park, Chile</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     75.0 km | 2,948 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Tour du Mont Blanc</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>France, Switzerland, Italy</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     168.2 km | 10,602 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title"> Uluṟu Base Walk</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Uluru-Kata Tjuta National Park, Northern Territory, Australia</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     10.1 km | 156 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="trail-card" data-status="bucket">
+                <div>
+                    <div class="trail-header">
+                        <h3 class="trail-title">Vista do Rei Viewpoint</h3>
+                        <span class="status-badge status-bucket">Bucket List</span>
+                    </div>
+                    <div class="trail-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>The Azores, Portugal</span>
+                    </div>
+                    <p class="intro-body" style="font-size: 0.95rem;">
+                     15.8 km | 494 m elevation gain
+                    </p>
+                
+                    <div class="scrapbook-snap">
+                        <img src="assets/hikes/placeholder.jpg" alt="Placeholder blank image">
+                    </div>
+                </div>
+            </div>  
+        </main>
+
+        
+<!-- Filtering by 'completed' and 'bucket list' hikes -->
+    <script>
+    function filterTrails(status, button) {
+        const trails = document.querySelectorAll('.trail-card');
+
+        trails.forEach(trail => {
+            if (status === 'all' || trail.dataset.status === status) {
+                trail.classList.remove('hidden-trail');
+            } else {
+                trail.classList.add('hidden-trail');
+            }
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active-filter');
+        });
+
+        button.classList.add('active-filter');
+    }
+    </script>
+</body>
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
