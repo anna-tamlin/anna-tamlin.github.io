@@ -394,7 +394,7 @@ body {
     /* Ensure images scale fluidly */
     .project-img-nocrop,
     .media-block img {
-        width: 80% !important;
+        width: 95% !important;
         max-width: 100% !important;
         height: auto !important;
         object-fit: contain !important;
