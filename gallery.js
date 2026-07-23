@@ -1,19 +1,19 @@
 const photoTripLog = [
     {
         src: "assets/plainsofabraham.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | PLAINS OF ABRAHAM, QUÉBEC CITY, CANADA | ISO 100 | f/6.5 | August 2025"
+        metadata: "SONY CYBERSHOT DSC-W310 | PLAINS OF ABRAHAM, CANADA | ISO 100 | f/6.5 | August 2025"
     },
         {
         src: "assets/quebeccity.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | ÎLE D'ORLÉANS, QUÉBEC, CANADA | ISO 100 | f/4.3 | August 2025"
+        metadata: "SONY CYBERSHOT DSC-W310 | ÎLE D'ORLÉANS, CANADA | ISO 100 | f/4.3 | August 2025"
     },
     {
         src: "assets/umbrellas.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | UMBRELLA ALLEY, QUÉBEC CITY, CANADA | ISO 100 | f/4.3 | August 2025"
+        metadata: "SONY CYBERSHOT DSC-W310 | UMBRELLA ALLEY, CANADA | ISO 100 | f/4.3 | August 2025"
     },
     {
         src: "assets/ago1.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | YAYOI KUSAMA'S INFINITY MIRRORS, ART GALLERY OF ONTARIO, CANADA | ISO 100 | f/3.0 | September 2025"
+        metadata: "SONY CYBERSHOT DSC-W310 | YAYOI KUSAMA'S INFINITY MIRRORS, CANADA | ISO 100 | f/3.0 | September 2025"
     },
     {
         src: "assets/ago2.jpg",
@@ -77,11 +77,11 @@ const photoTripLog = [
     },
     {
         src: "assets/alishan.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | ALISHAN NATIONAL FOREST RECREATION AREA, TAIWAN | ISO 100 | f/4.3 | February 2026"
+        metadata: "SONY CYBERSHOT DSC-W310 | ALISHAN, TAIWAN | ISO 100 | f/4.3 | February 2026"
     },
     {
         src: "assets/foggytrees.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | ALISHAN NATIONAL FOREST RECREATION AREA, TAIWAN | ISO 100 | f/4.3 | February 2026"
+        metadata: "SONY CYBERSHOT DSC-W310 | ALISHAN, TAIWAN | ISO 100 | f/4.3 | February 2026"
     },
     {
         src: "assets/cherryblossoms.jpg",
@@ -133,7 +133,7 @@ const photoTripLog = [
     },
     {
         src: "assets/jadesnowmountainsummit.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | YULONG SNOW MOUNTAIN (4860 M AMSL), CHINA | ISO 100 | f/4.3 | March 2026"
+        metadata: "SONY CYBERSHOT DSC-W310 | YULONG SNOW MOUNTAIN, CHINA | ISO 100 | f/4.3 | March 2026"
     },
     {
         src: "assets/bluemoonvalley.jpg",
@@ -189,7 +189,7 @@ const photoTripLog = [
     },
     {
         src: "assets/giantclam.jpg",
-        metadata: "OLYMPUS TG-7 | OUTER GREAT BARRIER REEF (PORT DOUGLAS), AUSTRALIA | ISO 100 | f/2.8 | April 2026"
+        metadata: "OLYMPUS TG-7 | OUTER GREAT BARRIER REEF, AUSTRALIA | ISO 100 | f/2.8 | April 2026"
     },
     {
         src: "assets/seaturtle.jpg",
@@ -209,11 +209,11 @@ const photoTripLog = [
     },
     {
         src: "assets/kangaroos.jpg",
-        metadata: "SONY CYBERSHOT DSC-W320 | KANGAROOS AT LONE PINE KOALA SANCTUARY, AUSTRALIA | ISO 80 | f/4.5 | April 2026"
+        metadata: "SONY CYBERSHOT DSC-W320 | LONE PINE KOALA SANCTUARY, AUSTRALIA | ISO 80 | f/4.5 | April 2026"
     },
     {
         src: "assets/rainbowlorikeets.jpg",
-        metadata: "SONY CYBERSHOT DSC-W320 | RAINBOW LORIKEETS AT LONE PINE KOALA SANCTUARY, AUSTRALIA | ISO 80 | f/2.8 | April 2026"
+        metadata: "SONY CYBERSHOT DSC-W320 | LONE PINE KOALA SANCTUARY, AUSTRALIA | ISO 80 | f/2.8 | April 2026"
     },
     {
         src: "assets/sydneyoperahouse.jpg",
@@ -297,15 +297,15 @@ const photoTripLog = [
     },
     {
         src: "assets/rcharris.jpg",
-        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, TORONTO, CANADA | ISO 80 | f/10.0 | May 2026"
+        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, CANADA | ISO 80 | f/10.0 | May 2026"
     },
     {
         src: "assets/rcharris1.jpg",
-        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, TORONTO, CANADA | ISO 80 | f/2.8 | May 2026"
+        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, CANADA | ISO 80 | f/2.8 | May 2026"
     },
     {
         src: "assets/rcharris2.jpg",
-        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, TORONTO, CANADA | ISO 80 | f/2.7 | May 2026"
+        metadata: "SONY CYBERSHOT DSC-W320 | R.C. HARRIS WATER TREATMENT PLANT, CANADA | ISO 80 | f/2.7 | May 2026"
     },
     {
         src: "assets/toronto.jpg",
