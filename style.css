@@ -215,6 +215,18 @@ body {
     text-align: left !important;
 }
 
+.travel-item {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.travel-item img {
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     html, body {
@@ -412,7 +424,7 @@ body {
         margin-top: 0.5rem !important;
     }
 
-    /* 9. Travel / Camera frames */
+    /* Travel / Camera frames */
     .travel-moments-wrapper, 
     .draggable-photo-class {
         display: none !important;
