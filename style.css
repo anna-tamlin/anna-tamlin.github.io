@@ -641,6 +641,18 @@ body {
   transform-origin: left center;
 }
 
+.coop-badge a {
+    color: inherit !important;     
+    text-decoration: none !important;
+    display: inline-block !important;
+    width: 100% !important;
+}
+
+.coop-badge:hover {
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
 .section-label {
     display: block;
     font-size: 0.75rem;
