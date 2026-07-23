@@ -13,7 +13,7 @@ const photoTripLog = [
     },
     {
         src: "assets/ago1.jpg",
-        metadata: "SONY CYBERSHOT DSC-W310 | YAYOI KUSAMA'S INFINITY MIRRORS | ISO 100 | f/3.0 | Sep 2025"
+        metadata: "SONY CYBERSHOT DSC-W310 | YAYOI KUSAMA'S MIRRORS | ISO 100 | f/3.0 | Sep 2025"
     },
     {
         src: "assets/ago2.jpg",
