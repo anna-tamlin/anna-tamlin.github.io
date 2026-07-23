@@ -227,6 +227,10 @@ body {
         margin: 0 !important;
         padding: 0 !important;
         box-sizing: border-box !important;
+        -webkit-text-size-adjust: 100% !important;
+        -moz-text-size-adjust: 100% !important;
+        -ms-text-size-adjust: 100% !important;
+        text-size-adjust: 100% !important;
     }
 
     main.content-wrapper .intro,
