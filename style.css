@@ -82,6 +82,24 @@ body {
 .mobile-footnotes-list {
     display: none; 
 }
+
+.footnote-mobile-link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.typing-cursor::after {
+  content: '|';
+  display: inline-block;
+  font-weight: normal;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  80% { opacity: 0; }
+}
+
 @media (max-width: 1024px) {
 
     /* Hide superscripts on mobile/tablet */
@@ -151,7 +169,7 @@ body {
         margin-top: clamp(1rem, 2.5vw, 1.75rem) !important;
         margin-bottom: clamp(1rem, 2.5vw, 1.5rem) !important;
         padding-top: 0 !important;
-        padding-bottom: 2.0rem !important;
+        padding-bottom: 0rem !important;
         
         text-align: center !important;
         box-sizing: border-box !important;
@@ -257,8 +275,26 @@ body {
         margin-top: 0.5rem !important;
         padding-top: 0 !important;
         line-height: 1.1 !important;
+        font-size: 2.1rem !important;
+        line-height: 1.2 !important;
+    }
+    h1.hero-title,
+    h1.hero-title *,
+    .hero-text {
+        font-size: 2.1rem !important;
+        line-height: 1.2 !important;
     }
 
+    /* Prevent "Anna-Margret!¹" from breaking across lines mid-word */
+    .name-link-container {
+        white-space: nowrap !important;
+    }
+
+    /* Keep the superscript small relative to the new mobile text size */
+    h1.hero-title sup {
+        font-size: 0.5em !important;
+    }
+}
     main, 
     .content-wrapper, 
     .container, 
@@ -291,9 +327,7 @@ body {
     }
 
     .nav-left a[href*="travel"],
-    .nav-link-travel,
-    .nav-right a[href*="instagram"],
-    .nav-link-instagram {
+    .nav-link-travel{
         display: none !important;
     }
 
@@ -318,8 +352,9 @@ body {
         display: flex !important;
         flex-direction: column !important;
         position: relative !important; 
-        padding-bottom: 1rem !important;
-        margin-bottom: 1rem !important;
+        padding-bottom: 0.5rem !important;
+        margin-top: 1rem !important;
+        margin-bottom: 0.5rem !important;
         gap: 0.5rem !important;
         width: 100% !important;
         box-sizing: border-box !important;
