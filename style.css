@@ -88,6 +88,10 @@ body {
   text-decoration: underline;
 }
 
+.fn-moments::after {
+  content: "4";
+}
+
 .typing-cursor::after {
   content: '|';
   display: inline-block;
@@ -115,7 +119,10 @@ body {
         visibility: hidden !important;
         opacity: 0 !important;
     }
-
+    
+    .fn-moments::after {
+        content: "3";
+    }
     /* Badge styling */
     .coop-badge { 
     display: block !important;
