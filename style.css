@@ -89,7 +89,7 @@ body {
 }
 
 .fn-moments::after {
-  content: "4";
+  content: "5";
 }
 
 .typing-cursor::after {
@@ -119,9 +119,9 @@ body {
         visibility: hidden !important;
         opacity: 0 !important;
     }
-    
+
     .fn-moments::after {
-        content: "3";
+        content: "4";
     }
     /* Badge styling */
     .coop-badge { 
