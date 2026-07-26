@@ -104,7 +104,7 @@ body {
   80% { opacity: 0; }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1350px) {
 
     /* Hide superscripts on mobile/tablet */
     .fn-desktop-only {
@@ -292,12 +292,10 @@ body {
         line-height: 1.2 !important;
     }
 
-    /* Prevent "Anna-Margret!¹" from breaking across lines mid-word */
     .name-link-container {
         white-space: nowrap !important;
     }
-
-    /* Keep the superscript small relative to the new mobile text size */
+    
     h1.hero-title sup {
         font-size: 0.5em !important;
     }
