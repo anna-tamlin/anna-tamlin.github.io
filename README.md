@@ -13,7 +13,7 @@ Access at **[annatamlin.ca](https://annatamlin.ca)** or **[anna-tamlin.github.io
 
 ---
 
-## 🛠️ Tech Stack & Features
+## Tech Stack & Features
 
 ### Built With
 * **Frontend:** HTML5, CSS3, JavaScript
