@@ -845,7 +845,7 @@ body {
     font-weight: 500;
 }
 
-.tag-ixl  { background-color: rgba(210, 235, 244, 0.409); color: #02acf2; } 
+.tag-ixl  { background-color: #85cae894; color: #02acf2; } 
 .tag-hsi  { background-color: #f4ccd6; color: #820024; }
 .tag-vip  { background-color: #bff3f5; color: #086164; }
 .tag-pepper { background-color: #0f8e41; color: #f5fbf3; }
