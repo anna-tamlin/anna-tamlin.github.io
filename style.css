@@ -1518,3 +1518,88 @@ body {
     border: 1px solid #e5e5e5;
     background-color: #fcfcfc;
 }
+
+.project-slideshow {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111827;
+  border: 1px solid #e5e7eb;
+  outline: none;
+}
+
+.project-slideshow:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.45);
+}
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.project-slide-stage {
+  aspect-ratio: 16 / 9;
+  min-height: 460px;
+}
+
+.pdf-slide-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.pdf-loading {
+  position: absolute;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.pdf-loading.is-hidden {
+  display: none;
+}
+
+.project-slide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.85rem;
+  background: #111827;
+  color: #f9fafb;
+  gap: 0.5rem;
+}
+
+.slide-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-slide-controls button,
+.slide-expand {
+  background: #374151;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.project-slide-controls button:hover:not(:disabled),
+.slide-expand:hover {
+  background: #4b5563;
+}
+
+.project-slide-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.slide-counter {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-variant-numeric: tabular-nums;
+}

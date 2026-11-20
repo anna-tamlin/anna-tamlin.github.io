@@ -200,22 +200,71 @@
                 <span class="exp-year">2024</span>
             </div>
         </div>
-    </div> <!-- Closes .experience-list -->
-</section> <!-- PROPERLY CLOSES Work Experience Section -->
+    </div>
+</section> 
 
-   <section class="section-header">
-                    <h2 class="section-title-serif">  </h2>
-                <div class="education-docs">
-                    <a href="resume.pdf" class="btn-download" target="_blank">
-                        <img src="download.svg" alt="Download icon" style="width: 16px; height: 16px;">Resume (PDF)
-                    </a>
-                </div>
-        </section>
+        <section class="section-header">
+                            <h2 class="section-title-serif">  </h2>
+                        <div class="education-docs">
+                            <a href="resume.pdf" class="btn-download" target="_blank">
+                                <img src="download.svg" alt="Download icon" style="width: 16px; height: 16px;">Resume (PDF)
+                            </a>
+                        </div>
+                </section>
 
         <section class="section-projects">
-            <h2 class="section-title-serif">Selected Projects</h2>
-            <div class="project-list">
+        <h2 class="section-title-serif">Selected Projects</h2>
+        <div class="project-list">
 
+            <article class="project-card">
+            <div class="project-header">
+                <div class="project-headline">
+                <h3 class="project-name">Redesign of the BC Wildfire Service Website</h3>
+                <span class="project-meta">UI/UX, Interface Design</span>
+                </div>
+                <span class="project-date">2026</span>
+            </div>
+
+            <div class="tag-group">
+                <span class="tag tag-proj">Lovable</span>
+                <span class="tag tag-proj">Balsamiq</span>
+                <span class="tag tag-proj">Design Principles</span>
+                <span class="tag tag-proj">Figma</span>
+                <span class="tag tag-proj">Figma Make</span>
+            </div>
+
+            <div class="project-grid">
+                <div class="project-desc">
+                <p><strong>The Challenge:</strong> Redesign the BC Wildfire Service web interface's list view to transform dense, real-time emergency data, such as active wildfires, evacuation alerts, area restrictions, and fire bans into a clear, rapid-scanning experience during high-stress crisis events for both residents and visitors.</p>
+                <p><strong>Execution and Insights:</strong> Led an end-to-end UX research and interface redesign of the BC Wildfire Service list view, restructuring information hierarchy, status indicators, and regional filtering across BC's six fire centres to minimize cognitive load. Conducted A/B user testing and usability evaluations to benchmark task completion times, filter discoverability, and visual comprehension of wildfire stages of control. Synthesized quantitative task metrics and qualitative user feedback into iterative Figma and Lovable (high-fidelity) prototypes, refining search workflows, responsive mobile-to-desktop layouts, and WCAG-compliant accessibility contrast to ensure critical public safety updates are immediately actionable.</p>
+                </div>
+
+                <div class="project-media">
+                <div class="project-slideshow" data-pdf="SYDE 542 Final Project Design Portfolio - Anna.pdf" tabindex="0" aria-label="BC Wildfire Service Redesign Slideshow">
+                    <div class="project-slide-stage">
+                    <canvas class="pdf-slide-canvas"></canvas>
+                    <div class="pdf-loading">Loading slides…</div>
+                    </div>
+
+                    <div class="project-slide-controls">
+                    <button type="button" class="slide-prev" aria-label="Previous slide">← Prev</button>
+                    <span class="slide-counter">1 / 25</span>
+                    <div class="slide-actions">
+                        <a href="SYDE 542 Final Project Design Portfolio - Anna.pdf" target="_blank" rel="noopener" class="slide-expand" title="Open full PDF">↗</a>
+                        <button type="button" class="slide-next" aria-label="Next slide">Next →</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </article>
+
+        </div>
+
+        <!-- Include PDF.js + your modular slideshow.js (best placed right before </body>) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+        <script src="slideshow.js" defer></script>
+        </section>
                 <article class="project-card">
                     <div class="project-header">
                         <div class="project-headline">
